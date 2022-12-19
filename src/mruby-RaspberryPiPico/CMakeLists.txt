@@ -10,6 +10,7 @@ target_include_directories(mruby-raspberrypipico PUBLIC
 
 target_link_libraries(mruby-raspberrypipico PRIVATE
 	pico_runtime
+	pico_stdlib
 	pico_time
 	mruby
 	)
