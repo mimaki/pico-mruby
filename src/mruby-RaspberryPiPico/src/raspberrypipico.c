@@ -83,10 +83,6 @@ mrb_gpio_read(mrb_state *mrb, mrb_value self)
   return mrb_fixnum_value(val);
 }
 
-const uint8_t hoge[] = {
-  0
-};
-
 void
 mrb_mruby_raspberrypipico_gem_init(mrb_state *mrb)
 {
@@ -104,10 +100,6 @@ mrb_mruby_raspberrypipico_gem_init(mrb_state *mrb)
     mrb_define_method(mrb, gpio, "setmode", mrb_gpio_setmode, MRB_ARGS_REQ(1));
     mrb_define_method(mrb, gpio, "write", mrb_gpio_write, MRB_ARGS_REQ(1));
     mrb_define_method(mrb, gpio, "read", mrb_gpio_read, MRB_ARGS_NONE());
-    // for test
-    printf("hoge addr: %p\n", hoge);
-    uint8_t *mrbarea = (uint8_t*)0x10100000;
-    printf("mrbarea: %x %x %x %x\n", mrbarea[0], mrbarea[1], mrbarea[2], mrbarea[3]);
   }
 }
 
