@@ -15,6 +15,7 @@
 #include "mruby/variable.h"
 #include "mruby/presym.h"
 #include "mruby/version.h"
+#include "mruby/irep.h"
 
 #include "raspberrypipico.h"
 
@@ -219,6 +220,24 @@ decl_lv_underscore(mrb_state *mrb, mrbc_context *cxt)
 }
 #endif
 
+#define ADDR_MRB  0x100A0000  /* MRB address */
+
+// Get MRB address on FlashROM
+static uint8_t *get_romapp(void)
+{
+  uint8_t *romapp = (uint8_t*)ADDR_MRB;
+  extern void dump_memory(uint8_t*, uint32_t);  // raspberrypipico.c
+  dump_memory(romapp, 0x100);
+
+  // check mrb header "RITE"
+  if (*((uint32_t*)romapp) == 0x45544952) { // ETIR
+    puts("MRB found.");
+    return romapp;
+  }
+  puts("MRB not found.");
+  return 0;
+}
+
 static int
 RunMIRB()
 {
@@ -244,6 +263,13 @@ RunMIRB()
   mrb_mruby_raspberrypipico_gem_init(mrb);
 
   mrb_gv_set(mrb, mrb_intern_lit(mrb, "$DEBUG"), mrb_bool_value(MRB_MIRB_DEBUG));
+
+  // Run mruby application located FlashROM
+  uint8_t *romapp = get_romapp();
+  if (romapp != 0) {
+    puts("Run mruby application on FlashROM.");
+    mrb_load_irep(mrb, romapp);
+  }
 
   print_hint();
 
