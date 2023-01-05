@@ -1,0 +1,7 @@
+*.lock
+*.bak
+*~
+.DS_Store
+.vscode
+
+/build
