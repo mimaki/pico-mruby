@@ -226,15 +226,15 @@ decl_lv_underscore(mrb_state *mrb, mrbc_context *cxt)
 static uint8_t *get_romapp(void)
 {
   uint8_t *romapp = (uint8_t*)ADDR_MRB;
-  extern void dump_memory(uint8_t*, uint32_t);  // raspberrypipico.c
-  dump_memory(romapp, 0x100);
+  // extern void dump_memory(uint8_t*, uint32_t);  // raspberrypipico.c
+  // dump_memory(romapp, 0x100);
 
   // check mrb header "RITE"
   if (*((uint32_t*)romapp) == 0x45544952) { // ETIR
-    puts("MRB found.");
+    // puts("MRB found.");
     return romapp;
   }
-  puts("MRB not found.");
+  // puts("MRB not found.");
   return 0;
 }
 
@@ -266,9 +266,14 @@ RunMIRB()
 
   // Run mruby application located FlashROM
   uint8_t *romapp = get_romapp();
-  if (romapp != 0) {
-    puts("Run mruby application on FlashROM.");
+  if (romapp) {
+    puts("Run the mruby application on FlashROM.");
     mrb_load_irep(mrb, romapp);
+    if (mrb->exc) {
+        mrb_value val = mrb_funcall(mrb, mrb_obj_value(mrb->exc), "inspect", 0);
+        printf("%s\n", mrb_str_to_cstr(mrb, val));
+    }
+    puts("The mruby application has terminated.");
   }
 
   print_hint();
