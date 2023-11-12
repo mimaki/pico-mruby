@@ -226,15 +226,15 @@ decl_lv_underscore(mrb_state *mrb, mrbc_context *cxt)
 static uint8_t *get_romapp(void)
 {
   uint8_t *romapp = (uint8_t*)ADDR_MRB;
-  // extern void dump_memory(uint8_t*, uint32_t);  // raspberrypipico.c
-  // dump_memory(romapp, 0x100);
+  extern void dump_memory(uint8_t*, uint32_t);  // raspberrypipico.c
+  dump_memory(romapp, 0x100);
 
   // check mrb header "RITE"
   if (*((uint32_t*)romapp) == 0x45544952) { // ETIR
-    // puts("MRB found.");
+    puts("MRB found.");
     return romapp;
   }
-  // puts("MRB not found.");
+  puts("MRB not found.");
   return 0;
 }
 

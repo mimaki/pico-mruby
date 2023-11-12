@@ -12,5 +12,6 @@ target_link_libraries(mruby-raspberrypipico PRIVATE
 	pico_runtime
 	pico_stdlib
 	pico_time
+	hardware_spi
 	mruby
 	)
