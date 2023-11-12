@@ -106,7 +106,7 @@ static mrb_value
 mrb_spi_init(mrb_state *mrb, mrb_value self)
 {
   // Initialize SPI
-#if 0
+#if 1
   // auto_cs pin
   gpio_init(PIN_auto_cs0);
   gpio_set_dir(PIN_auto_cs0, GPIO_OUT);
@@ -139,7 +139,7 @@ static mrb_value
 mrb_spi_write(mrb_state *mrb, mrb_value self)
 {
   mrb_int reg, data;
-  mrb_bool auto_cs = true;
+  mrb_bool auto_cs = false;
   uint8_t msg[2] = {0, 0};
   mrb_get_args(mrb, "ii|b", &reg, &data, &auto_cs);
 
@@ -157,7 +157,7 @@ static mrb_value
 mrb_spi_read(mrb_state *mrb, mrb_value self)
 {
   mrb_int reg, len=1;
-  mrb_bool auto_cs = true;
+  mrb_bool auto_cs = false;
   mrb_get_args(mrb, "i|ib", &reg, &len, &auto_cs);
 
   uint8_t mb = (len == 1) ? 0 : 1;

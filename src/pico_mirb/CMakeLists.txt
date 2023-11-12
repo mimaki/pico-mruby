@@ -5,7 +5,8 @@ target_sources(pico-mirb PRIVATE
 	)
 
 target_link_libraries(pico-mirb PRIVATE
-        pico_stdlib
+	pico_stdlib
+	hardware_spi
 	mruby
 	mruby-raspberrypipico
 	)
